@@ -60,10 +60,11 @@ TOR_Environment` — **War Sails is absent.**
 - [ ] Add to local launch `StartArguments` load order, after `TOR_Core`.
 - [ ] Decide hard vs. soft dependency (see §5).
 
-### 4.2 Runtime DLC detection (low effort)
-- [ ] On `OnSubModuleLoad`, detect whether War Sails is loaded/installed.
-- [ ] Gate all naval registration behind that flag so a single build degrades gracefully
-      if the DLC is absent.
+### 4.2 Runtime DLC sanity guard (low effort)
+- [x] On `OnSubModuleLoad`, check the War Sails module is present (`ModuleHelper`).
+- [x] Surface a clear in-game message confirming integration is active, or warning if the
+      DLC is missing. (War Sails is a hard `DependedModule`, so absence should be
+      unreachable — this is belt-and-suspenders, not feature gating.)
 
 ### 4.3 Fix existing collisions (low–medium effort)
 - [ ] Populate valid naval-navigation capacity data on TOR clans/parties so the vanilla
@@ -93,15 +94,15 @@ TOR_Environment` — **War Sails is absent.**
 ### 4.7 Scenes & prefabs (high effort — content/assets)
 - [ ] Naval battle scenes and ship prefabs (do not exist in TOR).
 
-## 5. Open decisions
+## 5. Decisions
 
-1. **Hard vs. soft dependency / reflection.**
-   - *Hard reference* to War Sails DLLs = simpler code, but the module only loads with the
-     DLC installed (acceptable if only DLC owners enable it).
-   - *Reflection* against War Sails types = one build runs with or without the DLC present,
-     at the cost of more complex code. **Recommended** for a public release.
-2. **Exact War Sails module ID and assembly names** — confirm from a War Sails install
-     before adding `<Reference>` / `<DependedModule>` entries.
+1. **Hard dependency on War Sails (RESOLVED).** The bridge **assumes the DLC is owned** —
+   War Sails is a hard `<DependedModule>`, and the project hard-references its assemblies in
+   the same style `TOR_Core` references the base game (`<HintPath>` + `<Private>False</Private>`).
+   No reflection. Players without the DLC simply don't enable `TOR_WarSails`.
+2. **Exact War Sails module ID and assembly names (OPEN).** Currently a placeholder
+   (`WarSails`, marked `TODO`) in `SubModule.xml`, `SubModule.cs`, and the `.csproj`. Confirm
+   from a War Sails install before the references can compile.
 3. **Scope of v1** — ship the C#/data layers (§4.1–4.5) first as a "naval-aware" bridge,
      and treat map/scene work (§4.6–4.7) as a separate later milestone?
 
