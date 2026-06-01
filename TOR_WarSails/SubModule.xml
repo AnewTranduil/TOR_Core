@@ -1,0 +1,33 @@
+<Module>
+	<Name value="The Old Realms - War Sails" />
+	<Id value="TOR_WarSails" />
+	<Version value="v1.3.15" />
+	<ModuleCategory value="Singleplayer"/>
+	<!--
+	  War Sails bridge module. This module ASSUMES the War Sails DLC is owned and enabled:
+	  the DLC is listed below as a hard DependedModule, so the launcher will refuse to load
+	  this bridge unless War Sails is present. Players without the DLC simply do not enable
+	  TOR_WarSails and play TOR_Core unchanged.
+	-->
+	<DependedModules>
+		<DependedModule Id="Native" DependentVersion="v1.3.15" />
+		<DependedModule Id="SandBoxCore" DependentVersion="v1.3.15" />
+		<DependedModule Id="Sandbox" DependentVersion="v1.3.15" />
+		<DependedModule Id="StoryMode" DependentVersion="v1.3.15" />
+		<DependedModule Id="TOR_Core" DependentVersion="v1.3.15" />
+		<!-- TODO: confirm the exact War Sails module Id (and version) from its own SubModule.xml in a War Sails install. -->
+		<DependedModule Id="WarSails" DependentVersion="v1.3.15" />
+	</DependedModules>
+	<SubModules>
+		<SubModule>
+			<Name value="TOR_WarSails" />
+			<DLLName value="TOR_WarSails.dll" />
+			<SubModuleClassType value="TOR_WarSails.SubModule" />
+			<Tags>
+				<Tag key="DedicatedServerType" value="none" />
+				<Tag key="IsNoRenderModeElement" value="false" />
+			</Tags>
+		</SubModule>
+	</SubModules>
+	<Xmls />
+</Module>
