@@ -1,0 +1,12 @@
+# Project memory — TOR_Core
+
+## War Sails DLC integration workflow
+
+- **Integration base branch:** `TOR_sails`. All War Sails / naval integration work lives here.
+- **New work items:** create a feature branch off `TOR_sails`, then open a PR **targeting
+  `TOR_sails`** (not `development`).
+- **Do NOT merge to `development` yet.** PR #1 (`TOR_sails` → `development`) is the umbrella
+  PR and stays open/unmerged until the integration is ready.
+- **Plan of record:** `docs/TOR_WarSails_Integration_Plan.md`. The chosen architecture is a
+  separate optional module `TOR_WarSails` depending on `TOR_Core` + War Sails, so the DLC
+  stays optional for players who don't own it.
