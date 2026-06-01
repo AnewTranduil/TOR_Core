@@ -67,11 +67,25 @@ TOR_Environment` — **War Sails is absent.**
       unreachable — this is belt-and-suspenders, not feature gating.)
 
 ### 4.3 Fix existing collisions (low–medium effort)
-- [ ] Populate valid naval-navigation capacity data on TOR clans/parties so the vanilla
-      `TeleportHeroAction` delay calc no longer null-refs.
+- [ ] **Clanless-hero teleport null-ref.** Root cause (confirmed): the vanilla teleport
+      **delay calculation dereferences `hero.Clan`** to read naval-navigation capacity with
+      no null check. Unhired wanderers have `Clan == null` → null-ref. (`SkillTrainerBehavior.cs:93`
+      calls the same `TeleportHeroAction.ApplyDelayedTeleportToParty` safely because those
+      heroes are clan members.) Proper fix: a Harmony guard on the vanilla naval-capacity
+      method that treats a null clan as "no naval capacity".
+      *Blocked in CI/source-only environments:* the exact target method/signature lives in
+      `TaleWorlds.CampaignSystem.dll`, which is not present here — needs a War Sails game
+      install (or the decompiled signature) to author and compile-verify the patch.
 - [ ] Once fixed, revert the workaround in `TORCompanionsCampaignBehavior` (re-enable the
       delayed teleport for wanderer travel simulation).
 - [ ] Audit the `NavalSoldier` usage in `CustomResourcePatches` once real naval troops exist.
+
+### 4.3b Bridge module infrastructure (DONE)
+- [x] Harmony bootstrap in `TOR_WarSails.SubModule` (`PatchAll` over the module assembly),
+      mirroring `TOR_Core`'s pattern, so future patches under a `Patches` namespace apply
+      automatically.
+- [x] Localization strings (`ModuleData/tor_warsails_strings.xml`) for the module's status
+      messages, registered via a `GameText` XmlNode in `SubModule.xml`.
 
 ### 4.4 Troops, items, traits (medium effort — mostly content)
 - [ ] Naval/marine troop entries; assign `DefaultTraits.NavalSoldier` to appropriate units.

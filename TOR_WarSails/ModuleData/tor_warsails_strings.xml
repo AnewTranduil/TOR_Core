@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<strings>
+  <string id="tor_warsails_loaded" text="{=tor_warsails_loaded}The Old Realms: War Sails integration is active." />
+  <string id="tor_warsails_missing" text="{=tor_warsails_missing}TOR War Sails bridge is enabled but the War Sails DLC was not found. Naval features are disabled." />
+</strings>

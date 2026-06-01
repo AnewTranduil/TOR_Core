@@ -1,3 +1,5 @@
+using System.Reflection;
+using HarmonyLib;
 using TaleWorlds.Library;
 using TaleWorlds.Localization;
 using TaleWorlds.ModuleManager;
@@ -18,12 +20,21 @@ namespace TOR_WarSails
         // TODO: confirm the exact War Sails module Id from its SubModule.xml in a War Sails install.
         private const string WarSailsModuleId = "WarSails";
 
+        /// <summary>Harmony instance for this module's patches (mirrors TOR_Core's pattern).</summary>
+        public static Harmony HarmonyInstance { get; private set; }
+
         private bool _warSailsPresent;
 
         protected override void OnSubModuleLoad()
         {
             base.OnSubModuleLoad();
             _warSailsPresent = IsModulePresent(WarSailsModuleId);
+
+            // Apply all [HarmonyPatch] types declared in this assembly. Patches go under the
+            // Patches namespace and are picked up automatically here.
+            HarmonyInstance = new Harmony("mod.harmony.theoldrealms.warsails");
+            HarmonyInstance.PatchAll(Assembly.GetExecutingAssembly());
+
             Debug.Print($"[TOR_WarSails] Bridge module loaded. War Sails present: {_warSailsPresent}.");
         }
 

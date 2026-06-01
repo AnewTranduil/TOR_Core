@@ -29,5 +29,9 @@
 			</Tags>
 		</SubModule>
 	</SubModules>
-	<Xmls />
+	<Xmls>
+		<XmlNode>
+			<XmlName id="GameText" path="tor_warsails_strings" />
+		</XmlNode>
+	</Xmls>
 </Module>
